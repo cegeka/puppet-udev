@@ -16,9 +16,10 @@ class udev::udevadm::trigger inherits udev::params {
   # adding `udevadm control --reload-rules` may be needed some day for edge
   # cases.
   # http://unix.stackexchange.com/questions/39370/how-to-reload-udev-rules-without-reboot
-
-  exec { $udev::params::udevtrigger:
-    refreshonly => true,
-    path        => $udev::params::udevadm_path,
+  if $udev::params::trigger {
+    exec { $udev::params::udevtrigger:
+      refreshonly => true,
+      path        => $udev::params::udevadm_path,
+    }
   }
 }

@@ -2,8 +2,10 @@
 #
 # This class should be considered private.
 #
-class udev::params {
-  $udevadm_path = '/sbin'
+class udev::params (
+  $udevadm_path = '/sbin',
+  $trigger = true
+) {
 
   case $::osfamily {
     'debian': {
@@ -15,7 +17,7 @@ class udev::params {
       if $::operatingsystem == 'Fedora' {
         if (versioncmp($::operatingsystemmajrelease,'20') >=0) {
           $udev_package    = 'systemd'
-          $udevtrigger     = 'udevadm trigger'
+          $udevtrigger     = 'udevadm control --reload-rules'
           $udevlogpriority = 'udevadm control --log-priority'
         }
         else {
@@ -30,12 +32,12 @@ class udev::params {
           }
           '6': {
             $udev_package    = 'udev'
-            $udevtrigger     = 'udevadm trigger'
+            $udevtrigger     = 'udevadm control --reload-rules'
             $udevlogpriority = 'udevadm control --log-priority'
           }
           '7': {
             $udev_package    = 'systemd'
-            $udevtrigger     = 'udevadm trigger'
+            $udevtrigger     = 'udevadm control --reload-rules'
             $udevlogpriority = 'udevadm control --log-priority'
           }
           default: {
