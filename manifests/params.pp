@@ -8,12 +8,12 @@ class udev::params (
 ) {
 
   case $::osfamily {
-    'debian': {
+    'Debian': {
       $udev_package    = 'udev'
       $udevlogpriority = 'udevadm control --log-priority'
       $udevtrigger     = 'udevadm trigger'
     }
-    'redhat': {
+    'RedHat': {
       if $::operatingsystem == 'Fedora' {
         if (versioncmp($::operatingsystemmajrelease,'20') >=0) {
           $udev_package    = 'systemd'
